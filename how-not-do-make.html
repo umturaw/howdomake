@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How Not Do Make</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #2c2c2c;
+    }
+    header {
+      background-color: #326789;
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-weight: 600;
+      font-size: 1.4em;
+      color: white;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-links a {
+      background-color: white;
+      color: #326789;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .nav-links a:hover {
+      background-color: #e3ecf3;
+      color: #264b67;
+    }
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      color: #326789;
+      margin-bottom: 20px;
+      font-size: 1.6em;
+    }
+    .intro {
+      margin-bottom: 30px;
+      font-size: 1.05em;
+      color: #444;
+    }
+    .article-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 20px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    .article-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.3em;
+    }
+    .article-card p {
+      margin: 0;
+      color: #555;
+    }
+    @media (prefers-color-scheme: dark) {
+      body, header, .article-card {
+        background-color: #ffffff !important;
+        color: #2c2c2c !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">HowDoMake</a>
+    <div class="nav-links">
+      <a href="how-do-make.html">How Do Make</a>
+      <a href="how-not-do-make.html">How Not Do Make</a>
+    </div>
+  </header>
+  <main>
+    <h2>How <em>Not</em> To Make Things</h2>
+    <p class="intro">
+      This section is dedicated to the funniest, most ridiculous ways people have tried (and failed) to solve problems. Don't try these at home.
+    </p>
+
+    <div class="article-card">
+      <h3>How NOT to Install a Split AC</h3>
+      <p>Using duct tape and hope is not a valid mounting strategy.</p>
+    </div>
+
+    <div class="article-card">
+      <h3>How NOT to Boil Water</h3>
+      <p>No, putting your phone under the kettle does not speed things up.</p>
+    </div>
+
+    <div class="article-card">
+      <h3>How NOT to Unclog a Sink</h3>
+      <p>The vacuum cleaner is not designed for plumbing emergencies.</p>
+    </div>
+  </main>
+</body>
+</html>
