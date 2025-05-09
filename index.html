@@ -4,66 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HowDoMake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff; /* tamamen beyaz arka plan */
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
             color: #2c2c2c;
         }
         header {
-            background-color: #326789; /* yeni mavi tonu */
+            background-color: #326789;
             color: white;
-            padding: 15px 30px;
+            padding: 12px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
         }
         .logo {
-            font-weight: bold;
-            font-size: 1.5em;
+            font-weight: 600;
+            font-size: 1.4em;
             color: white;
             text-decoration: none;
         }
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
         .nav-links a {
             background-color: white;
             color: #326789;
-            padding: 6px 12px;
-            border-radius: 5px;
+            padding: 6px 14px;
+            border-radius: 6px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-links a:hover {
+            background-color: #e3ecf3;
+            color: #264b67;
         }
         .search-box input {
-            padding: 6px 10px;
-            border-radius: 5px;
-            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            outline: none;
         }
         main {
             max-width: 1000px;
-            margin: 30px auto;
+            margin: 40px auto;
             padding: 0 20px;
         }
         h2 {
             color: #326789;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
         }
         .article-card {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 15px;
-            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 20px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
         .article-card h3 {
             margin: 0 0 10px;
+            font-size: 1.3em;
         }
         .article-card p {
             margin: 0;
+            color: #555;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body, header, .article-card {
+                background-color: #ffffff !important;
+                color: #2c2c2c !important;
+            }
         }
     </style>
 </head>
