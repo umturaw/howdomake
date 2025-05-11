@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Game</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+      background: #111;
+    }
+    #gameCanvas {
+      background: #222;
+      display: none;
+      margin: auto;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+    }
+    #startHint {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="gameCanvas" width="400" height="600"></canvas>
+<div id="startHint">Use ⬅️ ➡️ or tap sides to move</div>
+
+<script>
+  let canvas = document.getElementById("gameCanvas");
+  let ctx = canvas.getContext("2d");
+  let hint = document.getElementById("startHint");
+
+  let player = { x: 200, y: 570, width: 40, height: 20, color: "red" };
+  let obstacles = [];
+  let keys = {};
+  let gameRunning = false;
+
+  function drawPlayer() {
+    ctx.fillStyle = player.color;
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+  }
+
+  function drawObstacles() {
+    ctx.fillStyle = "deepskyblue";
+    obstacles.forEach(obj => ctx.fillRect(obj.x, obj.y, obj.w, obj.h));
+  }
+
+  function updateObstacles() {
+    for (let obj of obstacles) obj.y += 4;
+    obstacles = obstacles.filter(obj => obj.y < canvas.height);
+  }
+
+  function detectCollision() {
+    for (let obj of obstacles) {
+      if (player.x < obj.x + obj.w &&
+          player.x + player.width > obj.x &&
+          player.y < obj.y + obj.h &&
+          player.y + player.height > obj.y) {
+        stopGame();
+      }
+    }
+  }
+
+  function spawnObstacle() {
+    let w = 40 + Math.random() * 60;
+    let x = Math.random() * (canvas.width - w);
+    obstacles.push({ x, y: -20, w, h: 20 });
+  }
+
+  function movePlayer() {
+    if (keys["ArrowLeft"]) player.x -= 6;
+    if (keys["ArrowRight"]) player.x += 6;
+    player.x = Math.max(
