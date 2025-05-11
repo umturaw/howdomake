@@ -1,83 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secret Game</title>
+  <title>Gizli Yılan Oyunu</title>
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      font-family: sans-serif;
+    /* Gizli konteyner */
+    #secret-snake {
+      display: none; /* Gizli başlat */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #000;
+      padding: 10px;
+      border: 2px solid #333;
+      z-index: 9999;
+    }
+    canvas {
       background: #111;
-    }
-    #gameCanvas {
-      background: #222;
-      display: none;
-      margin: auto;
-      position: absolute;
-      top: 0; left: 0; bottom: 0; right: 0;
-    }
-    #startHint {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      display: none;
+      display: block;
     }
   </style>
 </head>
 <body>
+  <!-- Diğer sitenizin içeriği... -->
 
-<canvas id="gameCanvas" width="400" height="600"></canvas>
-<div id="startHint">Use ⬅️ ➡️ or tap sides to move</div>
+  <!-- Gizli Yılan Oyunu Bölümü -->
+  <div id="secret-snake">
+    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+  </div>
 
-<script>
-  let canvas = document.getElementById("gameCanvas");
-  let ctx = canvas.getContext("2d");
-  let hint = document.getElementById("startHint");
+  <!-- Oyun Aç/Kapa Butonunu dilediğiniz bir yere koyabilirsiniz -->
+  <button id="toggleSnake">Yılan Oyununu Göster/Gizle</button>
 
-  let player = { x: 200, y: 570, width: 40, height: 20, color: "red" };
-  let obstacles = [];
-  let keys = {};
-  let gameRunning = false;
+  <script>
+    const toggleBtn = document.getElementById('toggleSnake');
+    const secretDiv = document.getElementById('secret-snake');
+    toggleBtn.addEventListener('click', () => {
+      secretDiv.style.display = secretDiv.style.display === 'none' ? 'block' : 'none';
+    });
 
-  function drawPlayer() {
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
-  }
+    // Oyun Başlangıcı
+    const canvas = document.getElementById('snakeCanvas');
+    const ctx = canvas.getContext('2d');
+    const gridSize = 20;
+    const canvasSize = canvas.width; // kare olduğunu varsayıyoruz (400)
+    let snake = [{ x: 8, y: 8 }];
+    let dir = { x: 0, y: 0 };
+    let food = getRandomFood();
+    let gameInterval;
 
-  function drawObstacles() {
-    ctx.fillStyle = "deepskyblue";
-    obstacles.forEach(obj => ctx.fillRect(obj.x, obj.y, obj.w, obj.h));
-  }
-
-  function updateObstacles() {
-    for (let obj of obstacles) obj.y += 4;
-    obstacles = obstacles.filter(obj => obj.y < canvas.height);
-  }
-
-  function detectCollision() {
-    for (let obj of obstacles) {
-      if (player.x < obj.x + obj.w &&
-          player.x + player.width > obj.x &&
-          player.y < obj.y + obj.h &&
-          player.y + player.height > obj.y) {
-        stopGame();
+    document.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowUp':    if (dir.y === 0) dir = { x: 0, y: -1 }; break;
+        case 'ArrowDown':  if (dir.y === 0) dir = { x: 0, y: 1 }; break;
+        case 'ArrowLeft':  if (dir.x === 0) dir = { x: -1, y: 0 }; break;
+        case 'ArrowRight': if (dir.x === 0) dir = { x: 1, y: 0 }; break;
       }
+    });
+
+    function startGame() {
+      clearInterval(gameInterval);
+      snake = [{ x: 8, y: 8 }];
+      dir = { x: 0, y: 0 };
+      food = getRandomFood();
+      gameInterval = setInterval(gameLoop, 100);
     }
-  }
 
-  function spawnObstacle() {
-    let w = 40 + Math.random() * 60;
-    let x = Math.random() * (canvas.width - w);
-    obstacles.push({ x, y: -20, w, h: 20 });
-  }
+    function gameLoop() {
+      // Yeni kafa pozisyonu
+      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
 
-  function movePlayer() {
-    if (keys["ArrowLeft"]) player.x -= 6;
-    if (keys["ArrowRight"]) player.x += 6;
-    player.x = Math.max(
+      // Duvara veya kendine çarparsa reset
+      if (
+        head.x < 0 || head.x >= canvasSize / gridSize ||
+        head.y < 0 || head.y >= canvasSize / gridSize ||
+        snake.some(segment => segment.x === head.x && segment.y === head.y)
+      ) {
+        startGame();
+        return;
+      }
+
+      snake.unshift(head);
+
+      // Yem yendiyse yem üret, yem yemediyse kuyruğu kes
+      if (head.x === food.x && head.y === food.y) {
+        food = getRandomFood();
+      } else {
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    function draw() {
+      // Arkaplan
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, canvasSize, canvasSize);
+
+      // Yılan
+      ctx.fillStyle = '#0f0';
+      snake.forEach(segment => {
+        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+      });
+
+      // Yem
+      ctx.fillStyle = '#f00';
+      ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+    }
+
+    function getRandomFood() {
+      return {
+        x: Math.floor(Math.random() * (canvasSize / gridSize)),
+        y: Math.floor(Math.random() * (canvasSize / gridSize))
+      };
+    }
+
+    // Sayfa yüklendiğinde oyunu hazırla
+    window.onload = () => {
+      startGame();
+    };
+  </script>
+</body>
+</html>
