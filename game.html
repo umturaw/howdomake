@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hidden Pong Game</title>
+  <title>Hidden Pong Game with Score</title>
   <style>
     body, html {
       margin: 0;
@@ -27,6 +27,16 @@
       font-family: sans-serif;
       display: none;
     }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-family: sans-serif;
+      font-size: 18px;
+      display: none;
+    }
     #startButton {
       position: absolute;
       top: 50%;
@@ -46,6 +56,7 @@
 
 <canvas id="pong" width="400" height="600"></canvas>
 <button id="startButton">Start Game</button>
+<div id="score">Score: 0</div>
 <div id="hint">Tap left/right to move paddle. Avoid the ball falling!</div>
 
 <script>
@@ -53,11 +64,13 @@
   const ctx = canvas.getContext("2d");
   const hint = document.getElementById("hint");
   const startBtn = document.getElementById("startButton");
+  const scoreDisplay = document.getElementById("score");
 
   let paddle = { x: 150, y: 580, w: 100, h: 10 };
   let ball = { x: 200, y: 300, r: 10, dx: 2, dy: -4 };
   let leftPressed = false, rightPressed = false;
   let gameRunning = false;
+  let score = 0;
 
   function drawPaddle() {
     ctx.fillStyle = "#0f0";
@@ -91,6 +104,8 @@
         ball.x < paddle.x + paddle.w) {
       ball.dy *= -1;
       ball.y = paddle.y - ball.r;
+      score++;
+      scoreDisplay.textContent = "Score: " + score;
     }
 
     // Bottom hit (Game Over)
@@ -113,6 +128,9 @@
     canvas.style.display = "block";
     hint.style.display = "block";
     startBtn.style.display = "none";
+    score = 0;
+    scoreDisplay.textContent = "Score: 0";
+    scoreDisplay.style.display = "block";
     ball.x = 200;
     ball.y = 300;
     ball.dx = 2;
@@ -126,13 +144,14 @@
     gameRunning = false;
     canvas.style.display = "none";
     hint.style.display = "none";
+    scoreDisplay.style.display = "none";
     startBtn.style.display = "block";
   }
 
-  // Butona tıklayınca oyun başlasın
+  // Start button
   startBtn.addEventListener("click", startGame);
 
-  // Klavye kontrol (isteğe bağlı)
+  // Keyboard control
   window.addEventListener("keydown", e => {
     if (e.key === "ArrowLeft") leftPressed = true;
     if (e.key === "ArrowRight") rightPressed = true;
@@ -142,7 +161,7 @@
     if (e.key === "ArrowRight") rightPressed = false;
   });
 
-  // Mobil dokunmatik kontrol
+  // Touch control
   window.addEventListener("touchstart", e => {
     const x = e.touches[0].clientX;
     if (x < window.innerWidth / 2) leftPressed = true;
