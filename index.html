@@ -1,22 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9E8E4JDFJG"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-9E8E4JDFJG');
-  </script>
-  <link rel="icon" href="favicon.png" type="image/png">
-
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HowDoMake</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
     body {
       margin: 0;
@@ -36,11 +25,10 @@
     }
 
     .logo {
-  font-size: 2rem;           /* Daha büyük yazı */
-  font-weight: 700;          /* Daha kalın */
-  text-decoration: none;     /* Altı çizilmesin */
-  color: white;              /* Beyaz kalsın */
-  text-transform: none; /* Hepsi büyük harf */
+      font-size: 2rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: white;
     }
 
     .burger {
@@ -73,6 +61,28 @@
 
     .sidebar a:hover {
       background-color: #2d5d88;
+    }
+
+    .dropdown a {
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      flex-direction: column;
+      background-color: #2d5d88;
+    }
+
+    .dropdown-content a {
+      padding-left: 30px;
+      background-color: #2d5d88;
+      font-size: 0.95em;
+      text-decoration: none;
+      color: white;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #417ab1;
     }
 
     .overlay {
@@ -183,12 +193,22 @@
 </head>
 <body>
   <div class="overlay" onclick="closeSidebar()"></div>
+
   <div class="sidebar" id="sidebar">
-    <a href="#">Home</a>
-    <a href="#">Tech</a>
-    <a href="#">DIY</a>
-    <a href="#">Everyday</a>
-    <a href="#">Tools</a>
+    <a href="index.html">Home</a>
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown()">Categories ▾</a>
+      <div class="dropdown-content" id="categoryDropdown">
+        <a href="/categories/home-diy/">Home & DIY</a>
+        <a href="/categories/technology/">Technology</a>
+        <a href="/categories/tools/">Tools</a>
+        <a href="/categories/everyday-fixes/">Everyday Fixes</a>
+        <a href="/categories/cleaning-maintenance/">Cleaning & Maintenance</a>
+        <a href="/categories/apps-settings/">Apps & Settings</a>
+        <a href="/categories/car/">Car</a>
+        <a href="/categories/health-body/">Health & Body</a>
+      </div>
+    </div>
   </div>
 
   <header>
@@ -246,9 +266,15 @@
       document.getElementById("sidebar").style.left = "0";
       document.querySelector(".overlay").style.display = "block";
     }
+
     function closeSidebar() {
       document.getElementById("sidebar").style.left = "-250px";
       document.querySelector(".overlay").style.display = "none";
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById("categoryDropdown");
+      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
     }
 
     // Smooth scroll for anchor links
