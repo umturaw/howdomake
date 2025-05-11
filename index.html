@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9E8E4JDFJG"></script>
+       <script async src="https://www.googletagmanager.com/gtag/js?id=G-9E8E4JDFJG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -12,111 +12,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HowDoMake</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #2c2c2c;
-        }
-        header {
-            background-color: #326789;
-            color: white;
-            padding: 12px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .logo {
-            font-weight: 600;
-            font-size: 1.4em;
-            color: white;
-            text-decoration: none;
-        }
-        .nav-links {
-            display: flex;
-            gap: 16px;
-        }
-        .nav-links a {
-            background-color: white;
-            color: #326789;
-            padding: 6px 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .nav-links a:hover {
-            background-color: #e3ecf3;
-            color: #264b67;
-        }
-        .search-box input {
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            outline: none;
-        }
-        main {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        h2 {
-            color: #326789;
-            margin-bottom: 20px;
-            font-size: 1.6em;
-        }
-        .article-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            padding: 20px;
-            margin-bottom: 24px;
-            transition: all 0.3s ease;
-        }
-        .article-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-        .article-card h3 {
-            margin: 0 0 10px;
-            font-size: 1.3em;
-        }
-        .article-card p {
-            margin: 0;
-            color: #555;
-        }
+    <style> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HowDoMake</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #2c2c2c;
+    }
 
-        @media (prefers-color-scheme: dark) {
-            body, header, .article-card {
-                background-color: #ffffff !important;
-                color: #2c2c2c !important;
-            }
-        }
-    </style>
+    header {
+      background-color: #326789;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 1.6em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .burger {
+      font-size: 24px;
+      cursor: pointer;
+      display: block;
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      background-color: #204666;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 1.1em;
+      color: white;
+      display: block;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #2d5d88;
+    }
+
+    .overlay {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.3);
+      display: none;
+      z-index: 999;
+    }
+
+    .hero {
+      background-color: #f1f5f9;
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+
+    .hero h1 {
+      font-size: 2em;
+      color: #1b3e5a;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .hero a {
+      background-color: #326789;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .hero a:hover {
+      background-color: #204666;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-top: 40px;
+      font-size: 1.4em;
+      color: #326789;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .category {
+      background-color: #eaf1f7;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      color: #204666;
+      flex: 1 1 45%;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .article-list {
+      margin-top: 20px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    .article-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    footer {
+      background-color: #f0f0f0;
+      padding: 20px;
+      text-align: center;
+      color: #555;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .categories {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">HowDoMake</a>
-        <div class="nav-links">
-            <a href="how-do-make.html">How Do Make</a>
-            <a href="how-not-do-make.html">How Not Do Make</a>
-        </div>
-        <div class="search-box">
-            <input type="text" placeholder="Search...">
-        </div>
-    </header>
-    <main>
-        <h2>Latest Guides</h2>
-        <div class="article-card">
-            <h3>How to Install a Split Air Conditioner</h3>
-            <p>A complete step-by-step guide with visuals for beginners.</p>
-        </div>
-        <div class="article-card">
-            <h3>How to Clean an AC Filter</h3>
-            <p>Simple method to clean indoor unit filters without tools.</p>
-        </div>
-    </main>
+  <div class="overlay" onclick="closeSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <a href="#">Home</a>
+    <a href="#">Tech</a>
+    <a href="#">DIY</a>
+    <a href="#">Everyday</a>
+    <a href="#">Tools</a>
+  </div>
+
+  <header>
+    <div class="burger" onclick="openSidebar()">☰</div>
+    <div class="logo">HowDoMake</div>
+    <div></div>
+  </header>
+
+  <div class="hero">
+    <h1>Learn How To Do Almost Anything</h1>
+    <p>Detailed, visual, and practical guides for solving everyday problems — the right way.</p>
+    <a href="#latest">Browse Guides</a>
+  </div>
+
+  <main>
+    <h2>Top Categories</h2>
+    <div class="categories">
+      <div class="category">Home & DIY</div>
+      <div class="category">Technology</div>
+      <div class="category">Tools</div>
+      <div class="category">Everyday Fixes</div>
+    </div>
+
+    <h2>Most Viewed Guides</h2>
+    <div class="article-list">
+      <div class="article-card">
+        <h3>How to Install a Split AC</h3>
+        <p>A detailed visual guide to installing your AC unit step-by-step.</p>
+      </div>
+      <div class="article-card">
+        <h3>How to Mount a TV on the Wall</h3>
+        <p>Tools and techniques to safely mount any television screen.</p>
+      </div>
+    </div>
+
+    <h2 id="latest">Latest Guides</h2>
+    <div class="article-list">
+      <div class="article-card">
+        <h3>How to Clean an AC Filter</h3>
+        <p>Quick and easy maintenance for better air quality.</p>
+      </div>
+      <div class="article-card">
+        <h3>How to Reset a Wi-Fi Router</h3>
+        <p>Get back online by resetting your router the right way.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 HowDoMake — All rights reserved.
+  </footer>
+
+  <script>
+    function openSidebar() {
+      document.getElementById("sidebar").style.left = "0";
+      document.querySelector(".overlay").style.display = "block";
+    }
+    function closeSidebar() {
+      document.getElementById("sidebar").style.left = "-250px";
+      document.querySelector(".overlay").style.display = "none";
+    }
+  </script>
 </body>
 </html>
