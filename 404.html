@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <title>Gizli Yılan Oyunu</title>
   <style>
-    /* Gizli konteyner */
     #secret-snake {
-      display: none; /* İhtiyaç halinde "block" yapıp test edin */
+      display: none;
       position: fixed;
       top: 50%;
       left: 50%;
@@ -23,112 +22,16 @@
   </style>
 </head>
 <body>
-  <!-- Diğer içeriğiniz -->
+  <!-- ... diğer içeriğiniz ... -->
 
-  <!-- Gizli Yılan Oyunu Bölümü -->
   <div id="secret-snake">
     <canvas id="snakeCanvas" width="400" height="400"></canvas>
   </div>
-
-  <!-- Test butonu: Gizle/Göster -->
   <button id="toggleSnake">Yılan Oyununu Göster/Gizle</button>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOM yüklendi, oyun başlatılıyor...');
       const toggleBtn = document.getElementById('toggleSnake');
       const secretDiv = document.getElementById('secret-snake');
       const canvas = document.getElementById('snakeCanvas');
-      const ctx = canvas.getContext('2d');
-
-      if (!ctx) {
-        console.error('Canvas 2D context alınamadı!');
-        return;
-      }
-
-      const gridSize = 20;
-      const cellCount = canvas.width / gridSize;
-      let snake = [{ x: 8, y: 8 }];
-      let dir = { x: 0, y: 0 };
-      let food = getRandomFood();
-      let gameInterval;
-
-      toggleBtn.addEventListener('click', () => {
-        secretDiv.style.display = secretDiv.style.display === 'none' ? 'block' : 'none';
-      });
-
-      document.addEventListener('keydown', e => {
-        switch (e.key) {
-          case 'ArrowUp':
-            if (dir.y === 0) dir = { x: 0, y: -1 };
-            break;
-          case 'ArrowDown':
-            if (dir.y === 0) dir = { x: 0, y: 1 };
-            break;
-          case 'ArrowLeft':
-            if (dir.x === 0) dir = { x: -1, y: 0 };
-            break;
-          case 'ArrowRight':
-            if (dir.x === 0) dir = { x: 1, y: 0 };
-            break;
-        }
-      });
-
-      function startGame() {
-        clearInterval(gameInterval);
-        snake = [{ x: 8, y: 8 }];
-        dir = { x: 0, y: 0 };
-        food = getRandomFood();
-        console.log('Oyun başladı: yılan, yem konumu:', snake[0], food);
-        gameInterval = setInterval(gameLoop, 100);
-      }
-
-      function gameLoop() {
-        const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-        // Duvara veya kendine çarpma kontrolü
-        if (
-          head.x < 0 || head.x >= cellCount ||
-          head.y < 0 || head.y >= cellCount ||
-          snake.some(seg => seg.x === head.x && seg.y === head.y)
-        ) {
-          console.warn('Çarpma algılandı, oyun yeniden başlatılıyor');
-          startGame();
-          return;
-        }
-        snake.unshift(head);
-        if (head.x === food.x && head.y === food.y) {
-          console.log('Yem yendi');
-          food = getRandomFood();
-        } else {
-          snake.pop();
-        }
-        draw();
-      }
-
-      function draw() {
-        // Arkaplan
-        ctx.fillStyle = '#111';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Yılan
-        ctx.fillStyle = '#0f0';
-        snake.forEach(seg => {
-          ctx.fillRect(seg.x * gridSize, seg.y * gridSize, gridSize - 2, gridSize - 2);
-        });
-        // Yem
-        ctx.fillStyle = '#f00';
-        ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
-      }
-
-      function getRandomFood() {
-        return {
-          x: Math.floor(Math.random() * cellCount),
-          y: Math.floor(Math.random() * cellCount)
-        };
-      }
-
-      // İlk oyunu başlat
-      startGame();
-    });
-  </script>
-</body>
-</html>
+      const ctx = canvas
