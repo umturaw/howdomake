@@ -1,47 +1,158 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Full-Screen Yılan Oyunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hidden Pong Game</title>
   <style>
-    html, body {
+    body, html {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: #000;
+      background-color: black;
       overflow: hidden;
     }
     canvas {
-      display: block;
-      background: #000;
+      background-color: #111;
+      display: none;
+      margin: 0 auto;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+    }
+    #hint {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      color: white;
+      text-align: center;
+      font-family: sans-serif;
+      display: none;
+    }
+    #startButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      background: #0f0;
+      color: #000;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <canvas id="snakeCanvas"></canvas>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.getElementById('snakeCanvas');
-      const ctx = canvas.getContext('2d');
-      const gridSize = 20;
-      let cellCountX, cellCountY;
-      let snake, dir, food, gameInterval;
+<canvas id="pong" width="400" height="600"></canvas>
+<button id="startButton">Start Game</button>
+<div id="hint">Tap left/right to move paddle. Avoid the ball falling!</div>
 
-      function resizeCanvas() {
-        // Canvas'ı tam ekrana, gridSize katlarına yuvarlayarak ayarla
-        cellCountX = Math.floor(window.innerWidth / gridSize);
-        cellCountY = Math.floor(window.innerHeight / gridSize);
-        canvas.width  = cellCountX * gridSize;
-        canvas.height = cellCountY * gridSize;
-        // Yeniden çizim için başlangıç sahnesi
-        draw();
-      }
+<script>
+  const canvas = document.getElementById("pong");
+  const ctx = canvas.getContext("2d");
+  const hint = document.getElementById("hint");
+  const startBtn = document.getElementById("startButton");
 
-      window.addEventListener('resize', resizeCanvas);
+  let paddle = { x: 150, y: 580, w: 100, h: 10 };
+  let ball = { x: 200, y: 300, r: 10, dx: 2, dy: -4 };
+  let leftPressed = false, rightPressed = false;
+  let gameRunning = false;
 
-      document.addEventListener('keydown', e => {
-        // Ok tuşlarıyla yön verme
-        switch (e.key) {
-          case 'ArrowUp':    if (dir.y === 0) dir = { x: 0, y: -1 }; break;
-          case 'ArrowDown':  if (dir.y === 0) dir
+  function drawPaddle() {
+    ctx.fillStyle = "#0f0";
+    ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+  }
+
+  function drawBall() {
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+    ctx.fillStyle = "#f00";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function move() {
+    if (leftPressed) paddle.x -= 5;
+    if (rightPressed) paddle.x += 5;
+    paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, paddle.x));
+  }
+
+  function updateBall() {
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+
+    if (ball.x + ball.r > canvas.width || ball.x - ball.r < 0) ball.dx *= -1;
+    if (ball.y - ball.r < 0) ball.dy *= -1;
+
+    // Paddle collision
+    if (ball.y + ball.r > paddle.y &&
+        ball.x > paddle.x &&
+        ball.x < paddle.x + paddle.w) {
+      ball.dy *= -1;
+      ball.y = paddle.y - ball.r;
+    }
+
+    // Bottom hit (Game Over)
+    if (ball.y - ball.r > canvas.height) {
+      stopGame();
+    }
+  }
+
+  function draw() {
+    if (!gameRunning) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPaddle();
+    drawBall();
+    move();
+    updateBall();
+    requestAnimationFrame(draw);
+  }
+
+  function startGame() {
+    canvas.style.display = "block";
+    hint.style.display = "block";
+    startBtn.style.display = "none";
+    ball.x = 200;
+    ball.y = 300;
+    ball.dx = 2;
+    ball.dy = -4;
+    gameRunning = true;
+    draw();
+  }
+
+  function stopGame() {
+    alert("Game Over!");
+    gameRunning = false;
+    canvas.style.display = "none";
+    hint.style.display = "none";
+    startBtn.style.display = "block";
+  }
+
+  // Butona tıklayınca oyun başlasın
+  startBtn.addEventListener("click", startGame);
+
+  // Klavye kontrol (isteğe bağlı)
+  window.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft") leftPressed = true;
+    if (e.key === "ArrowRight") rightPressed = true;
+  });
+  window.addEventListener("keyup", e => {
+    if (e.key === "ArrowLeft") leftPressed = false;
+    if (e.key === "ArrowRight") rightPressed = false;
+  });
+
+  // Mobil dokunmatik kontrol
+  window.addEventListener("touchstart", e => {
+    const x = e.touches[0].clientX;
+    if (x < window.innerWidth / 2) leftPressed = true;
+    else rightPressed = true;
+  });
+  window.addEventListener("touchend", () => {
+    leftPressed = false;
+    rightPressed = false;
+  });
+</script>
+
+</body>
+</html>
