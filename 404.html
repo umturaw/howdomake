@@ -6,7 +6,7 @@
   <style>
     /* Gizli konteyner */
     #secret-snake {
-      display: none; /* Gizli başlat */
+      display: none; /* İhtiyaç halinde "block" yapıp test edin */
       position: fixed;
       top: 50%;
       left: 50%;
@@ -23,103 +23,112 @@
   </style>
 </head>
 <body>
-  <!-- Diğer sitenizin içeriği... -->
+  <!-- Diğer içeriğiniz -->
 
   <!-- Gizli Yılan Oyunu Bölümü -->
   <div id="secret-snake">
     <canvas id="snakeCanvas" width="400" height="400"></canvas>
   </div>
 
-  <!-- Oyun Aç/Kapa Butonunu dilediğiniz bir yere koyabilirsiniz -->
+  <!-- Test butonu: Gizle/Göster -->
   <button id="toggleSnake">Yılan Oyununu Göster/Gizle</button>
 
   <script>
-    const toggleBtn = document.getElementById('toggleSnake');
-    const secretDiv = document.getElementById('secret-snake');
-    toggleBtn.addEventListener('click', () => {
-      secretDiv.style.display = secretDiv.style.display === 'none' ? 'block' : 'none';
-    });
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM yüklendi, oyun başlatılıyor...');
+      const toggleBtn = document.getElementById('toggleSnake');
+      const secretDiv = document.getElementById('secret-snake');
+      const canvas = document.getElementById('snakeCanvas');
+      const ctx = canvas.getContext('2d');
 
-    // Oyun Başlangıcı
-    const canvas = document.getElementById('snakeCanvas');
-    const ctx = canvas.getContext('2d');
-    const gridSize = 20;
-    const canvasSize = canvas.width; // kare olduğunu varsayıyoruz (400)
-    let snake = [{ x: 8, y: 8 }];
-    let dir = { x: 0, y: 0 };
-    let food = getRandomFood();
-    let gameInterval;
-
-    document.addEventListener('keydown', e => {
-      switch (e.key) {
-        case 'ArrowUp':    if (dir.y === 0) dir = { x: 0, y: -1 }; break;
-        case 'ArrowDown':  if (dir.y === 0) dir = { x: 0, y: 1 }; break;
-        case 'ArrowLeft':  if (dir.x === 0) dir = { x: -1, y: 0 }; break;
-        case 'ArrowRight': if (dir.x === 0) dir = { x: 1, y: 0 }; break;
-      }
-    });
-
-    function startGame() {
-      clearInterval(gameInterval);
-      snake = [{ x: 8, y: 8 }];
-      dir = { x: 0, y: 0 };
-      food = getRandomFood();
-      gameInterval = setInterval(gameLoop, 100);
-    }
-
-    function gameLoop() {
-      // Yeni kafa pozisyonu
-      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-
-      // Duvara veya kendine çarparsa reset
-      if (
-        head.x < 0 || head.x >= canvasSize / gridSize ||
-        head.y < 0 || head.y >= canvasSize / gridSize ||
-        snake.some(segment => segment.x === head.x && segment.y === head.y)
-      ) {
-        startGame();
+      if (!ctx) {
+        console.error('Canvas 2D context alınamadı!');
         return;
       }
 
-      snake.unshift(head);
+      const gridSize = 20;
+      const cellCount = canvas.width / gridSize;
+      let snake = [{ x: 8, y: 8 }];
+      let dir = { x: 0, y: 0 };
+      let food = getRandomFood();
+      let gameInterval;
 
-      // Yem yendiyse yem üret, yem yemediyse kuyruğu kes
-      if (head.x === food.x && head.y === food.y) {
-        food = getRandomFood();
-      } else {
-        snake.pop();
-      }
-
-      draw();
-    }
-
-    function draw() {
-      // Arkaplan
-      ctx.fillStyle = '#111';
-      ctx.fillRect(0, 0, canvasSize, canvasSize);
-
-      // Yılan
-      ctx.fillStyle = '#0f0';
-      snake.forEach(segment => {
-        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+      toggleBtn.addEventListener('click', () => {
+        secretDiv.style.display = secretDiv.style.display === 'none' ? 'block' : 'none';
       });
 
-      // Yem
-      ctx.fillStyle = '#f00';
-      ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
-    }
+      document.addEventListener('keydown', e => {
+        switch (e.key) {
+          case 'ArrowUp':
+            if (dir.y === 0) dir = { x: 0, y: -1 };
+            break;
+          case 'ArrowDown':
+            if (dir.y === 0) dir = { x: 0, y: 1 };
+            break;
+          case 'ArrowLeft':
+            if (dir.x === 0) dir = { x: -1, y: 0 };
+            break;
+          case 'ArrowRight':
+            if (dir.x === 0) dir = { x: 1, y: 0 };
+            break;
+        }
+      });
 
-    function getRandomFood() {
-      return {
-        x: Math.floor(Math.random() * (canvasSize / gridSize)),
-        y: Math.floor(Math.random() * (canvasSize / gridSize))
-      };
-    }
+      function startGame() {
+        clearInterval(gameInterval);
+        snake = [{ x: 8, y: 8 }];
+        dir = { x: 0, y: 0 };
+        food = getRandomFood();
+        console.log('Oyun başladı: yılan, yem konumu:', snake[0], food);
+        gameInterval = setInterval(gameLoop, 100);
+      }
 
-    // Sayfa yüklendiğinde oyunu hazırla
-    window.onload = () => {
+      function gameLoop() {
+        const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+        // Duvara veya kendine çarpma kontrolü
+        if (
+          head.x < 0 || head.x >= cellCount ||
+          head.y < 0 || head.y >= cellCount ||
+          snake.some(seg => seg.x === head.x && seg.y === head.y)
+        ) {
+          console.warn('Çarpma algılandı, oyun yeniden başlatılıyor');
+          startGame();
+          return;
+        }
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+          console.log('Yem yendi');
+          food = getRandomFood();
+        } else {
+          snake.pop();
+        }
+        draw();
+      }
+
+      function draw() {
+        // Arkaplan
+        ctx.fillStyle = '#111';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Yılan
+        ctx.fillStyle = '#0f0';
+        snake.forEach(seg => {
+          ctx.fillRect(seg.x * gridSize, seg.y * gridSize, gridSize - 2, gridSize - 2);
+        });
+        // Yem
+        ctx.fillStyle = '#f00';
+        ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+      }
+
+      function getRandomFood() {
+        return {
+          x: Math.floor(Math.random() * cellCount),
+          y: Math.floor(Math.random() * cellCount)
+        };
+      }
+
+      // İlk oyunu başlat
       startGame();
-    };
+    });
   </script>
 </body>
 </html>
