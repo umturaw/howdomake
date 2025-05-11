@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -156,24 +157,11 @@
       flex: 1 1 45%;
       text-align: center;
       cursor: pointer;
+      text-decoration: none;
     }
 
     .article-list {
       margin-top: 20px;
-    }
-
-    .article-card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-      padding: 20px;
-      margin-bottom: 20px;
-      transition: 0.3s;
-    }
-
-    .article-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
     }
 
     footer {
@@ -220,40 +208,20 @@
   <div class="hero">
     <h1>Learn How To Do Almost Anything</h1>
     <p>Detailed, visual, and practical guides for solving everyday problems — the right way.</p>
-    <a href="#latest">Browse Guides</a>
+    <a href="#categories">Browse Guides</a>
   </div>
 
   <main>
-    <h2>Top Categories</h2>
+    <h2 id="categories">Top Categories</h2>
     <div class="categories">
-      <div class="category">Home & DIY</div>
-      <div class="category">Technology</div>
-      <div class="category">Tools</div>
-      <div class="category">Everyday Fixes</div>
-    </div>
-
-    <h2>Most Viewed Guides</h2>
-    <div class="article-list">
-      <div class="article-card">
-        <h3>How to Install a Split AC</h3>
-        <p>A detailed visual guide to installing your AC unit step-by-step.</p>
-      </div>
-      <div class="article-card">
-        <h3>How to Mount a TV on the Wall</h3>
-        <p>Tools and techniques to safely mount any television screen.</p>
-      </div>
-    </div>
-
-    <h2 id="latest">Latest Guides</h2>
-    <div class="article-list">
-      <div class="article-card">
-        <h3>How to Clean an AC Filter</h3>
-        <p>Quick and easy maintenance for better air quality.</p>
-      </div>
-      <div class="article-card">
-        <h3>How to Reset a Wi-Fi Router</h3>
-        <p>Get back online by resetting your router the right way.</p>
-      </div>
+      <a class="category" href="/categories/home-diy/">Home & DIY</a>
+      <a class="category" href="/categories/technology/">Technology</a>
+      <a class="category" href="/categories/tools/">Tools</a>
+      <a class="category" href="/categories/everyday-fixes/">Everyday Fixes</a>
+      <a class="category" href="/categories/cleaning-maintenance/">Cleaning & Maintenance</a>
+      <a class="category" href="/categories/apps-settings/">Apps & Settings</a>
+      <a class="category" href="/categories/car/">Car</a>
+      <a class="category" href="/categories/health-body/">Health & Body</a>
     </div>
   </main>
 
