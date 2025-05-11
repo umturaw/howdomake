@@ -2,36 +2,46 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Gizli Yılan Oyunu</title>
+  <title>Full-Screen Yılan Oyunu</title>
   <style>
-    #secret-snake {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
       background: #000;
-      padding: 10px;
-      border: 2px solid #333;
-      z-index: 9999;
+      overflow: hidden;
     }
     canvas {
-      background: #111;
       display: block;
+      background: #000;
     }
   </style>
 </head>
 <body>
-  <!-- ... diğer içeriğiniz ... -->
-
-  <div id="secret-snake">
-    <canvas id="snakeCanvas" width="400" height="400"></canvas>
-  </div>
-  <button id="toggleSnake">Yılan Oyununu Göster/Gizle</button>
+  <canvas id="snakeCanvas"></canvas>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const toggleBtn = document.getElementById('toggleSnake');
-      const secretDiv = document.getElementById('secret-snake');
       const canvas = document.getElementById('snakeCanvas');
-      const ctx = canvas
+      const ctx = canvas.getContext('2d');
+      const gridSize = 20;
+      let cellCountX, cellCountY;
+      let snake, dir, food, gameInterval;
+
+      function resizeCanvas() {
+        // Canvas'ı tam ekrana, gridSize katlarına yuvarlayarak ayarla
+        cellCountX = Math.floor(window.innerWidth / gridSize);
+        cellCountY = Math.floor(window.innerHeight / gridSize);
+        canvas.width  = cellCountX * gridSize;
+        canvas.height = cellCountY * gridSize;
+        // Yeniden çizim için başlangıç sahnesi
+        draw();
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+
+      document.addEventListener('keydown', e => {
+        // Ok tuşlarıyla yön verme
+        switch (e.key) {
+          case 'ArrowUp':    if (dir.y === 0) dir = { x: 0, y: -1 }; break;
+          case 'ArrowDown':  if (dir.y === 0) dir
