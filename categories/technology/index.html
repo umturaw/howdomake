@@ -3,60 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Technology | HowDoMake</title>
+  <title>Technology Guides – HowDoMake</title>
+  <meta name="description" content="Technology guides to help you fix, learn, and master tech tools and devices.">
   <link rel="icon" href="/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; font-family: 'Poppins', sans-serif; background-color: #ffffff; color: #2c2c2c; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      color: #2c2c2c;
+    }
     header {
       background-color: #326789;
       color: white;
       display: flex;
       align-items: center;
-      justify-content: center;
-      height: 70px;
-      position: relative;
-      padding: 0 20px;
+      justify-content: space-between;
+      padding: 15px 20px;
     }
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
       text-decoration: none;
       color: white;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
     }
-    .burger {
-      font-size: 24px;
-      cursor: pointer;
-      position: absolute;
-      left: 20px;
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
     }
-    main { padding: 60px 20px; text-align: center; }
-    h1 { color: #1b3e5a; }
-    p { font-size: 1.1em; color: #444; }
-    footer { background-color: #f0f0f0; padding: 20px; text-align: center; color: #555; margin-top: 40px; }
+    h1 {
+      color: #1b3e5a;
+      margin-bottom: 5px;
+    }
+    .category-description {
+      color: #555;
+      margin-bottom: 30px;
+    }
+    .guide-list {
+      list-style: none;
+      padding: 0;
+    }
+    .guide-list li {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 15px 0;
+    }
+    .guide-list a {
+      font-weight: 600;
+      color: #326789;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    .guide-list a:hover {
+      text-decoration: underline;
+    }
+    .guide-desc {
+      font-size: 0.95em;
+      color: #555;
+      margin-top: 5px;
+    }
+    footer {
+      background-color: #f0f0f0;
+      padding: 20px;
+      text-align: center;
+      color: #555;
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="burger" onclick="openSidebar()">☰</div>
-    <a href="/" class="logo">HowDoMake</a>
+    <a href="/index.html" class="logo">HowDoMake</a>
+    <div></div>
   </header>
 
   <main>
-    <h1>Technology Guides</h1>
-    <p>Guides are coming soon for this category.</p>
+    <!-- Kategori Başlığı -->
+    <h1>💻 Technology</h1>
+    <p class="category-description">Guides to help you fix, learn, and master tech tools and devices.</p>
+
+    <!-- Rehber Listesi -->
+    <ul class="guide-list">
+      <li>
+        <a href="/guides/how-to-speed-up-your-computer.html">How to Speed Up Your Computer</a>
+        <div class="guide-desc">Simple tweaks to make your PC or laptop run faster.</div>
+      </li>
+      <li>
+        <a href="/guides/how-to-setup-wifi-router.html">Setting Up a Wi-Fi Router the Right Way</a>
+        <div class="guide-desc">Step-by-step instructions for a secure and fast connection.</div>
+      </li>
+      <li>
+        <a href="/guides/how-to-use-cloud-storage.html">How to Use Cloud Storage Safely</a>
+        <div class="guide-desc">Tips to store your files online without risking your privacy.</div>
+      </li>
+    </ul>
   </main>
 
   <footer>
     <p>&copy; 2025 HowDoMake — All rights reserved.</p>
-    <div style="margin-top: 10px;">
-      <a href="/about.html" style="margin-right: 15px;">About</a>
-      <a href="/privacy.html" style="margin-right: 15px;">Privacy Policy</a>
-      <a href="/contact.html">Contact</a>
-    </div>
   </footer>
 </body>
 </html>
